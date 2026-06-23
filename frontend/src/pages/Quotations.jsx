@@ -122,8 +122,8 @@ function Quotations() {
   }
 
   window.open(
-    `http://localhost:5001/api/quotations/${savedQuotationId}/pdf`,
-    "_blank"
+    `${import.meta.env.VITE_API_URL}/quotations/${id}/pdf`,
+  "_blank"
   );
 };
 
