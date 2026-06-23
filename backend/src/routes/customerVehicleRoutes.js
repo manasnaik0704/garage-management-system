@@ -6,6 +6,10 @@ const {
   createCustomerVehicle,
 } = require("../controllers/customerVehicleController");
 
+router.get("/", (req, res) => {
+  res.json([]);
+});
+
 router.post(
   "/",
   createCustomerVehicle
