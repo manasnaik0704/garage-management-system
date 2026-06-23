@@ -272,7 +272,7 @@ const handleDeleteInvoice = async (
           <h1 className="text-3xl font-bold">
             Invoices
           </h1>
-<div className="grid md:grid-cols-4 gap-4 mt-5">
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-5">
 
   <div className="bg-blue-600 text-white p-5 rounded-xl">
     <h3>Total Invoices</h3>
@@ -332,10 +332,10 @@ const handleDeleteInvoice = async (
 
         <div className="bg-white rounded-xl shadow p-6">
 
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
             <select
-              className="border rounded-lg p-3"
+              className="border rounded-2xl p-4"
               value={customerId}
               onChange={(e) =>
                 setCustomerId(
@@ -366,7 +366,7 @@ const handleDeleteInvoice = async (
             </select>
 
             <select
-              className="border rounded-lg p-3"
+              className="border rounded-2xl p-4"
               value={vehicleId}
               onChange={(e) =>
                 setVehicleId(
@@ -411,7 +411,7 @@ const handleDeleteInvoice = async (
           </div>
 
           <textarea
-            className="border rounded-lg p-3 w-full mt-4"
+className="border rounded-2xl p-4 w-full mt-4"
             placeholder="Notes"
             value={notes}
             onChange={(e) =>
@@ -425,132 +425,117 @@ const handleDeleteInvoice = async (
 
         <div className="bg-white rounded-xl shadow p-6">
 
-          <div className="flex justify-between mb-5">
+          <h2 className="text-xl font-bold mb-5">
+  Invoice Items
+</h2>
 
-            <h2 className="text-xl font-bold">
-              Invoice Items
-            </h2>
+          {items.map((item, index) => (
 
-            <button
-              onClick={addRow}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg"
-            >
+  <div
+    key={index}
+    className="bg-slate-50 rounded-2xl p-5 shadow mb-4 space-y-3"
+  >
 
-              + Add Item
+    <input
+      className="border rounded-2xl p-4 w-full"
+      placeholder="Item Name"
+      value={item.item_name}
+      onChange={(e) =>
+        updateItem(
+          index,
+          "item_name",
+          e.target.value
+        )
+      }
+    />
+<button
+  type="button"
+  onClick={addRow}
+  className="w-full bg-blue-600 text-white py-4 rounded-2xl text-lg"
+>
+  + Add Item
+</button>
+    <select
+      className="border rounded-2xl p-4 w-full"
+      value={item.item_type}
+      onChange={(e) =>
+        updateItem(
+          index,
+          "item_type",
+          e.target.value
+        )
+      }
+    >
+      <option>Part</option>
+      <option>Labour</option>
+    </select>
 
-            </button>
+    <input
+      type="number"
+      className="border rounded-2xl p-4 w-full"
+      placeholder="Qty"
+      value={item.qty}
+      onChange={(e) =>
+        updateItem(
+          index,
+          "qty",
+          e.target.value
+        )
+      }
+    />
 
-          </div>
+    <input
+      type="number"
+      className="border rounded-2xl p-4 w-full"
+      placeholder="Rate"
+      value={item.rate}
+      onChange={(e) =>
+        updateItem(
+          index,
+          "rate",
+          e.target.value
+        )
+      }
+    />
 
-          {items.map(
-            (item, index) => (
+    <div className="bg-green-100 rounded-2xl p-4 text-xl font-bold text-green-700">
 
-              <div
-                key={index}
-                className="grid grid-cols-6 gap-3 mb-3"
-              >
+      ₹ {Number(item.qty || 0) * Number(item.rate || 0)}
 
-                <input
-                  className="border rounded-lg p-3"
-                  placeholder="Item Name"
-                  value={item.item_name}
-                  onChange={(e) =>
-                    updateItem(
-                      index,
-                      "item_name",
-                      e.target.value
-                    )
-                  }
-                />
+    </div>
 
-                <select
-                  className="border rounded-lg p-3"
-                  value={item.item_type}
-                  onChange={(e) =>
-                    updateItem(
-                      index,
-                      "item_type",
-                      e.target.value
-                    )
-                  }
-                >
+    <button
+      type="button"
+      className="w-full bg-red-600 text-white py-3 rounded-2xl"
+      onClick={() =>
+        removeRow(index)
+      }
+    >
+      Remove Item
+    </button>
 
-                  <option>
-                    Part
-                  </option>
+  </div>
 
-                  <option>
-                    Labour
-                  </option>
+))}
 
-                </select>
+          <div className="bg-green-50 rounded-2xl p-5 mt-6">
 
-                <input
-                  type="number"
-                  className="border rounded-lg p-3"
-                  value={item.qty}
-                  onChange={(e) =>
-                    updateItem(
-                      index,
-                      "qty",
-                      e.target.value
-                    )
-                  }
-                />
+<p className="text-gray-500">
 
-                <input
-                  type="number"
-                  className="border rounded-lg p-3"
-                  value={item.rate}
-                  onChange={(e) =>
-                    updateItem(
-                      index,
-                      "rate",
-                      e.target.value
-                    )
-                  }
-                />
+Grand Total
 
-                <div className="border rounded-lg p-3 bg-gray-100">
+</p>
 
-                  ₹
-                  {
-                    item.qty *
-                    item.rate
-                  }
+<h1 className="text-4xl font-bold text-green-700">
 
-                </div>
+₹ {grandTotal}
 
-                <button
-                  className="bg-red-500 text-white rounded-lg"
-                  onClick={() =>
-                    removeRow(
-                      index
-                    )
-                  }
-                >
+</h1>
 
-                  Remove
-
-                </button>
-
-              </div>
-
-            )
-          )}
-
-          <div className="mt-6 text-right">
-
-            <h1 className="text-3xl font-bold text-green-600">
-
-              ₹ {grandTotal}
-
-            </h1>
-
-          </div>
+</div>
 
           <button
-            className="bg-green-600 text-white px-6 py-3 rounded-lg mt-5"
+           className="w-full bg-green-600 text-white py-4 rounded-2xl text-lg mt-5"
             onClick={
               handleSaveInvoice
             }
@@ -577,7 +562,7 @@ const handleDeleteInvoice = async (
   />
 
   <select
-    className="border rounded-lg p-3"
+    className="border rounded-2xl p-4"
     value={statusFilter}
     onChange={(e) =>
       setStatusFilter(
@@ -594,197 +579,149 @@ const handleDeleteInvoice = async (
   </select>
 
 </div>
-  <div className="overflow-x-auto">
+<div className="space-y-4">
+  {
+invoices
+.filter((invoice)=>{
 
-    <table className="w-full">
+const matchesSearch =
 
-      <thead className="bg-gray-100">
+invoice.invoice_no
+.toLowerCase()
+.includes(
+search.toLowerCase()
+)
 
-        <tr>
+||
 
-          <th className="p-3 text-left">
-  Invoice No
-</th>
+invoice.customer_name
+.toLowerCase()
+.includes(
+search.toLowerCase()
+)
 
-<th className="p-3 text-left">
-  Customer
-</th>
+||
 
-<th className="p-3 text-left">
-  Vehicle
-</th>
+invoice.vehicle_number
+.toLowerCase()
+.includes(
+search.toLowerCase()
+);
 
-<th className="p-3 text-left">
-  Total
-</th>
+const matchesStatus =
 
-<th className="p-3 text-left">
-  Paid
-</th>
+statusFilter==="All"
 
-<th className="p-3 text-left">
-  Balance
-</th>
+||
 
-<th className="p-3 text-left">
-  Status
-</th>
+invoice.status===statusFilter;
 
-<th className="p-3 text-left">
-  Action
-</th>
+return (
+matchesSearch &&
+matchesStatus
+);
 
-        </tr>
+})
 
-      </thead>
+.map((invoice)=>(
 
-      <tbody>
+<div
+key={invoice.id}
+className="bg-slate-50 rounded-2xl shadow p-5"
+>
+  <div className="space-y-2">
 
-        {
-  invoices
-    .filter((invoice) => {
+<h2 className="text-xl font-bold">
+{invoice.invoice_no}
+</h2>
 
-      const matchesSearch =
+<p>
+👤 {invoice.customer_name}
+</p>
 
-        invoice.invoice_no
-          .toLowerCase()
-          .includes(
-            search.toLowerCase()
-          )
+<p>
+🚗 {invoice.vehicle_number}
+</p>
 
-        ||
+<p>
+💰 Total : ₹{invoice.total_amount}
+</p>
 
-        invoice.customer_name
-          .toLowerCase()
-          .includes(
-            search.toLowerCase()
-          )
+<p>
+✅ Paid : ₹{invoice.paid_amount}
+</p>
 
-        ||
+<p>
+⚠ Balance : ₹{invoice.balance_amount}
+</p>
 
-        invoice.vehicle_number
-          .toLowerCase()
-          .includes(
-            search.toLowerCase()
-          );
+<span
+className={
+invoice.status==="Paid"
+?
+"bg-green-100 text-green-700 px-3 py-2 rounded-full"
 
-      const matchesStatus =
+:
 
-        statusFilter === "All"
+invoice.status==="Partial"
 
-        ||
+?
 
-        invoice.status ===
-        statusFilter;
+"bg-yellow-100 text-yellow-700 px-3 py-2 rounded-full"
 
-      return (
-        matchesSearch &&
-        matchesStatus
-      );
+:
 
-    })
-
-    .map((invoice) => (
-
-          <tr
-            key={invoice.id}
-            className="border-b"
-          >
-
-            <td className="p-3">
-              {invoice.invoice_no}
-            </td>
-
-            <td className="p-3">
-              {invoice.customer_name}
-            </td>
-
-            <td className="p-3">
-              {invoice.vehicle_number}
-            </td>
-
-            <td className="p-3">
-              ₹ {invoice.total_amount}
-            </td>
-
-            <td className="p-3">
-  ₹ {invoice.paid_amount}
-</td>
-
-<td className="p-3">
-  ₹ {invoice.balance_amount}
-</td>
-
-            <td className="p-3">
-
-              <span
-                className={
-                  invoice.status === "Paid"
-                    ? "bg-green-100 text-green-700 px-3 py-1 rounded-full"
-                    : invoice.status === "Partial"
-                    ? "bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full"
-                    : "bg-red-100 text-red-700 px-3 py-1 rounded-full"
-                }
-              >
-
-                {invoice.status}
-
-              </span>
-
-            </td>
-
-            <td className="p-3">
-                <button
-  className="bg-green-600 text-white px-3 py-2 rounded-lg mr-2"
-  onClick={() =>
-    handleMarkPaid(
-      invoice
-    )
-  }
+"bg-red-100 text-red-700 px-3 py-2 rounded-full"
+}
 >
 
-  Mark Paid
+{invoice.status}
 
-</button>
+</span>
 
-              <button
-                className="bg-blue-600 text-white px-3 py-2 rounded-lg"
-                onClick={() =>
-                  window.open(
-                    `${import.meta.env.VITE_API_URL}/invoices/${invoice.id}/pdf`,
-  "_blank"
-                  )
-                }
-              >
+</div>
+<div className="space-y-3 mt-5">
 
-                PDF
-
-              </button>
-              
-              <button
-  className="bg-red-600 text-white px-3 py-2 rounded-lg ml-2"
-  onClick={() =>
-    handleDeleteInvoice(
-      invoice.id
-    )
-  }
+<button
+className="w-full bg-green-600 text-white py-3 rounded-2xl"
+onClick={()=>
+handleMarkPaid(invoice)
+}
 >
-
-  Delete
-
+Mark Paid
 </button>
 
-            </td>
+<button
+className="w-full bg-blue-600 text-white py-3 rounded-2xl"
+onClick={()=>
+window.open(
+`${import.meta.env.VITE_API_URL}/invoices/${invoice.id}/pdf`,
+"_blank"
+)
+}
+>
+Download PDF
+</button>
 
-          </tr>
+<button
+className="w-full bg-red-600 text-white py-3 rounded-2xl"
+onClick={()=>
+handleDeleteInvoice(
+invoice.id
+)
+}
+>
+Delete Invoice
+</button>
 
-        ))}
+</div>
 
-      </tbody>
+</div>
 
-    </table>
+))
+}
 
-  </div>
+</div>
 
 </div>
 

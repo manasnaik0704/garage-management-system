@@ -132,7 +132,7 @@ function Quotations() {
       <div className="space-y-6">
 
         <div>
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-2xl md:text-3xl font-bold text-slate-800">
             Create Quotation
           </h1>
 
@@ -143,10 +143,10 @@ function Quotations() {
 
         <div className="bg-white rounded-xl shadow p-6">
 
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
             <select
-              className="border rounded-lg p-3"
+              className="border rounded-2xl p-4"
               value={customerId}
               onChange={(e) =>
                 setCustomerId(e.target.value)
@@ -167,7 +167,7 @@ function Quotations() {
             </select>
 
             <select
-              className="border rounded-lg p-3"
+              className="border rounded-2xl p-4"
               value={vehicleId}
               onChange={(e) =>
                 setVehicleId(e.target.value)
@@ -196,7 +196,7 @@ function Quotations() {
             </select>
 
             <textarea
-              className="border rounded-lg p-3 md:col-span-2"
+              className="border rounded-2xl p-4 md:col-span-2"
               placeholder="Notes"
               value={notes}
               onChange={(e) =>
@@ -209,131 +209,116 @@ function Quotations() {
 
         <div className="bg-white rounded-xl shadow p-6">
 
-          <div className="flex justify-between items-center mb-4">
-
-            <h2 className="text-xl font-semibold">
-              Quotation Items
-            </h2>
-
-            <button
-              type="button"
-              onClick={addRow}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg"
-            >
-              + Add Item
-            </button>
-
-          </div>
-
-          <div className="grid grid-cols-6 gap-3 mb-3 font-semibold">
-            <div>Item Name</div>
-            <div>Type</div>
-            <div>Qty</div>
-            <div>Rate</div>
-            <div>Total</div>
-            <div>Action</div>
-          </div>
+          <h2 className="text-xl font-semibold mb-4">
+  Quotation Items
+</h2>
 
           {items.map((item, index) => (
             <div
-              key={index}
-              className="grid grid-cols-6 gap-3 mb-3"
-            >
-              <input
-                className="border rounded-lg p-3"
-                placeholder="Item Name"
-                value={item.item_name}
-                onChange={(e) =>
-                  updateItem(
-                    index,
-                    "item_name",
-                    e.target.value
-                  )
-                }
-              />
+  key={index}
+  className="bg-slate-50 rounded-2xl p-5 shadow mb-4 space-y-3"
+>
 
-              <select
-                className="border rounded-lg p-3"
-                value={item.item_type}
-                onChange={(e) =>
-                  updateItem(
-                    index,
-                    "item_type",
-                    e.target.value
-                  )
-                }
-              >
-                <option value="Part">
-                  Part
-                </option>
+  <input
+    className="border rounded-2xl p-4 w-full"
+    placeholder="Item Name"
+    value={item.item_name}
+    onChange={(e)=>
+      updateItem(
+        index,
+        "item_name",
+        e.target.value
+      )
+    }
+  />
 
-                <option value="Labour">
-                  Labour
-                </option>
-              </select>
+  <select
+    className="border rounded-2xl p-4 w-full"
+    value={item.item_type}
+    onChange={(e)=>
+      updateItem(
+        index,
+        "item_type",
+        e.target.value
+      )
+    }
+  >
+    <option>Part</option>
+    <option>Labour</option>
+  </select>
 
-              <input
-                type="number"
-                className="border rounded-lg p-3"
-                value={item.qty}
-                onChange={(e) =>
-                  updateItem(
-                    index,
-                    "qty",
-                    e.target.value
-                  )
-                }
-              />
+  <input
+    type="number"
+    className="border rounded-2xl p-4 w-full"
+    placeholder="Qty"
+    value={item.qty}
+    onChange={(e)=>
+      updateItem(
+        index,
+        "qty",
+        e.target.value
+      )
+    }
+  />
 
-              <input
-                type="number"
-                className="border rounded-lg p-3"
-                value={item.rate}
-                onChange={(e) =>
-                  updateItem(
-                    index,
-                    "rate",
-                    e.target.value
-                  )
-                }
-              />
+  <input
+    type="number"
+    className="border rounded-2xl p-4 w-full"
+    placeholder="Rate"
+    value={item.rate}
+    onChange={(e)=>
+      updateItem(
+        index,
+        "rate",
+        e.target.value
+      )
+    }
+  />
 
-              <div className="border rounded-lg p-3 bg-gray-50">
-                ₹{" "}
-                {Number(item.qty || 0) *
-                  Number(item.rate || 0)}
-              </div>
+  <div className="bg-green-100 rounded-2xl p-4 text-xl font-bold text-green-700">
 
-              <button
-                type="button"
-                onClick={() =>
-                  removeRow(index)
-                }
-                className="bg-red-500 text-white rounded-lg"
-              >
-                Remove
-              </button>
-            </div>
+    ₹ {Number(item.qty || 0) * Number(item.rate || 0)}
+
+  </div>
+
+  <button
+  type="button"
+    className="w-full bg-red-600 text-white py-3 rounded-2xl"
+    onClick={() =>
+      removeRow(index)
+    }
+  >
+    Remove Item
+  </button>
+  
+<button
+  type="button"
+  onClick={addRow}
+  className="w-full bg-blue-600 text-white py-4 rounded-2xl text-lg mt-4"
+>
+  + Add Item
+</button>
+</div>
           ))}
 
-          <div className="mt-6 text-right">
+          <div className="bg-green-50 rounded-2xl p-5 mt-6">
 
             <p className="text-gray-500">
               Grand Total
             </p>
 
-            <h2 className="text-3xl font-bold text-green-600">
+            <h2 className="text-4xl font-bold text-green-700">
               ₹ {grandTotal}
             </h2>
 
           </div>
 
-          <div className="mt-6 flex gap-3">
+          <div className="mt-6 space-y-3">
 
             <button
               type="button"
               onClick={handleSaveDraft}
-              className="bg-green-600 text-white px-6 py-3 rounded-lg"
+              className="w-full bg-green-600 text-white py-4 rounded-2xl text-lg"
             >
               Save Draft
             </button>
@@ -341,7 +326,7 @@ function Quotations() {
             <button
               type="button"
               onClick={handleDownloadPDF}
-              className="bg-red-600 text-white px-6 py-3 rounded-lg"
+              className="w-full bg-red-600 text-white py-4 rounded-2xl text-lg"
             >
               Download PDF
             </button>

@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import { addCustomerVehicle } from "../services/customerVehicleService";
-
-import {
-  getCustomerDetails,
-} from "../services/customerDetailsService";
-
+import { getCustomerDetails } from "../services/customerDetailsService";
 import {
   getCustomers,
   deleteCustomer,
@@ -15,25 +11,23 @@ function Customers() {
   const [customers, setCustomers] = useState([]);
   const [search, setSearch] = useState("");
 
+  const [selectedCustomer, setSelectedCustomer] =
+    useState(null);
+
+  const [showModal, setShowModal] =
+    useState(false);
+
   const [form, setForm] = useState({
     name: "",
     mobile: "",
     address: "",
     notes: "",
-
     vehicle_number: "",
     vehicle_model: "",
     vehicle_make: "",
-
     km_reading: "",
     fuel_level: "",
   });
-
-const [selectedCustomer, setSelectedCustomer] =
-  useState(null);
-
-const [showModal, setShowModal] =
-  useState(false);
 
   useEffect(() => {
     loadCustomers();
@@ -50,84 +44,107 @@ const [showModal, setShowModal] =
     try {
       await addCustomerVehicle(form);
 
-      alert("Customer & Vehicle Added Successfully");
+      alert(
+        "Customer & Vehicle Added Successfully"
+      );
 
       setForm({
         name: "",
         mobile: "",
         address: "",
         notes: "",
-
         vehicle_number: "",
         vehicle_model: "",
         vehicle_make: "",
-
         km_reading: "",
         fuel_level: "",
       });
 
       loadCustomers();
+
     } catch (error) {
+
       alert(
         error?.response?.data?.sqlMessage ||
-          "Something went wrong"
+        "Something went wrong"
       );
+
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Delete Customer?")) return;
+
+    if (!window.confirm("Delete Customer?"))
+      return;
 
     await deleteCustomer(id);
 
     loadCustomers();
+
   };
-const handleView = async (id) => {
-  const res =
-    await getCustomerDetails(id);
 
-  setSelectedCustomer(res.data[0]);
+  const handleView = async (id) => {
 
-  setShowModal(true);
-};
+    const res =
+      await getCustomerDetails(id);
 
-  const filteredCustomers = customers.filter(
-    (customer) =>
-      customer.name
-        .toLowerCase()
-        .includes(search.toLowerCase()) ||
-      customer.mobile.includes(search)
-  );
+    setSelectedCustomer(
+      res.data[0]
+    );
+
+    setShowModal(true);
+
+  };
+
+  const filteredCustomers =
+    customers.filter(
+      (customer) =>
+        customer.name
+          .toLowerCase()
+          .includes(
+            search.toLowerCase()
+          ) ||
+        customer.mobile.includes(search)
+    );
 
   return (
     <MainLayout>
+
       <div className="space-y-6">
 
         {/* Header */}
+
         <div>
-          <h1 className="text-3xl font-bold text-slate-800">
+
+          <h1 className="text-2xl md:text-3xl font-bold text-slate-800">
             Customers
           </h1>
 
           <p className="text-slate-500">
             Manage Customers & Vehicles
           </p>
+
         </div>
 
-        {/* Stats Card */}
-        <div className="bg-white rounded-xl shadow p-5">
+        {/* Stats */}
+
+        <div className="bg-white rounded-2xl shadow p-5">
+
           <p className="text-gray-500">
             Total Customers
           </p>
 
-          <h2 className="text-4xl font-bold text-blue-600">
+          <h2 className="text-3xl font-bold text-blue-600 mt-2">
             {customers.length}
           </h2>
+
         </div>
 
-        {/* Form Card */}
-        <div className="bg-white rounded-xl shadow p-6">
-          <h2 className="text-xl font-semibold mb-5">
+        {/* Form */}
+
+        <div className="bg-white rounded-2xl shadow p-6">
+
+          <h2 className="text-xl font-bold mb-5">
             Add Customer & Vehicle
           </h2>
 
@@ -136,15 +153,8 @@ const handleView = async (id) => {
             className="grid md:grid-cols-2 gap-4"
           >
 
-            {/* Customer Section */}
-            <div className="md:col-span-2">
-              <h3 className="text-lg font-semibold text-slate-700">
-                Customer Information
-              </h3>
-            </div>
-
             <input
-              className="border rounded-lg p-3"
+              className="border rounded-xl p-4"
               placeholder="Customer Name"
               value={form.name}
               onChange={(e) =>
@@ -156,7 +166,7 @@ const handleView = async (id) => {
             />
 
             <input
-              className="border rounded-lg p-3"
+              className="border rounded-xl p-4"
               placeholder="Mobile Number"
               value={form.mobile}
               onChange={(e) =>
@@ -168,7 +178,7 @@ const handleView = async (id) => {
             />
 
             <input
-              className="border rounded-lg p-3"
+              className="border rounded-xl p-4"
               placeholder="Address"
               value={form.address}
               onChange={(e) =>
@@ -180,7 +190,7 @@ const handleView = async (id) => {
             />
 
             <input
-              className="border rounded-lg p-3"
+              className="border rounded-xl p-4"
               placeholder="Notes"
               value={form.notes}
               onChange={(e) =>
@@ -191,15 +201,8 @@ const handleView = async (id) => {
               }
             />
 
-            {/* Vehicle Section */}
-            <div className="md:col-span-2 mt-4">
-              <h3 className="text-lg font-semibold text-slate-700">
-                Vehicle Information
-              </h3>
-            </div>
-
             <input
-              className="border rounded-lg p-3"
+              className="border rounded-xl p-4"
               placeholder="Vehicle Number"
               value={form.vehicle_number}
               onChange={(e) =>
@@ -211,7 +214,7 @@ const handleView = async (id) => {
             />
 
             <input
-              className="border rounded-lg p-3"
+              className="border rounded-xl p-4"
               placeholder="Vehicle Model"
               value={form.vehicle_model}
               onChange={(e) =>
@@ -223,7 +226,7 @@ const handleView = async (id) => {
             />
 
             <input
-              className="border rounded-lg p-3"
+              className="border rounded-xl p-4"
               placeholder="Vehicle Make"
               value={form.vehicle_make}
               onChange={(e) =>
@@ -235,7 +238,7 @@ const handleView = async (id) => {
             />
 
             <input
-              className="border rounded-lg p-3"
+              className="border rounded-xl p-4"
               placeholder="KM Reading"
               value={form.km_reading}
               onChange={(e) =>
@@ -247,7 +250,7 @@ const handleView = async (id) => {
             />
 
             <input
-              className="border rounded-lg p-3"
+              className="border rounded-xl p-4"
               placeholder="Fuel Level"
               value={form.fuel_level}
               onChange={(e) =>
@@ -259,164 +262,134 @@ const handleView = async (id) => {
             />
 
             <div className="md:col-span-2">
+
               <button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg"
+                className="w-full bg-blue-600 text-white py-4 rounded-2xl text-lg font-semibold"
               >
                 Save Customer & Vehicle
               </button>
+
             </div>
+
           </form>
+
         </div>
 
-        {/* Customer List */}
-        <div className="bg-white rounded-xl shadow p-6">
+        {/* Search */}
+
+        <div className="bg-white rounded-2xl shadow p-6">
+
           <input
-            className="w-full border rounded-lg p-3 mb-5"
-            placeholder="Search Customer..."
+            className="w-full border rounded-xl p-4 mb-5"
+            placeholder="Search Customer"
             value={search}
             onChange={(e) =>
               setSearch(e.target.value)
             }
           />
 
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b">
-                  <th className="text-left p-3">
-                    Name
-                  </th>
+          <div className="space-y-4">
 
-                  <th className="text-left p-3">
-                    Mobile
-                  </th>
+            {filteredCustomers.map(
+              (customer) => (
 
-                  <th className="text-left p-3">
-                    Address
-                  </th>
+                <div
+                  key={customer.id}
+                  className="bg-slate-50 rounded-2xl p-5 shadow"
+                >
 
-                  <th className="text-left p-3">
-                    Action
-                  </th>
-                </tr>
-              </thead>
+                  <h2 className="text-xl font-bold">
+                    {customer.name}
+                  </h2>
 
-              <tbody>
-                {filteredCustomers.map(
-                  (customer) => (
-                    <tr
-                      key={customer.id}
-                      className="border-b hover:bg-slate-50"
+                  <p className="mt-2 text-gray-500">
+                    📞 {customer.mobile}
+                  </p>
+
+                  <p className="text-gray-500">
+                    📍 {customer.address}
+                  </p>
+
+                  <div className="flex gap-3 mt-5">
+
+                    <button
+                      onClick={() =>
+                        handleView(
+                          customer.id
+                        )
+                      }
+                      className="flex-1 bg-blue-600 text-white py-3 rounded-xl"
                     >
-                      <td className="p-3">
-                        {customer.name}
-                      </td>
+                      View
+                    </button>
 
-                      <td className="p-3">
-                        {customer.mobile}
-                      </td>
+                    <button
+                      onClick={() =>
+                        handleDelete(
+                          customer.id
+                        )
+                      }
+                      className="flex-1 bg-red-600 text-white py-3 rounded-xl"
+                    >
+                      Delete
+                    </button>
 
-                      <td className="p-3">
-                        {customer.address}
-                      </td>
+                  </div>
 
-                      <td className="p-3 flex gap-2">
-  <button
-    onClick={() =>
-      handleView(customer.id)
-    }
-    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded"
-  >
-    View
-  </button>
+                </div>
 
-  <button
-    onClick={() =>
-      handleDelete(customer.id)
-    }
-    className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded"
-  >
-    Delete
-  </button>
-</td>
-                    </tr>
-                  )
-                )}
-              </tbody>
-            </table>
+              )
+            )}
+
           </div>
+
         </div>
 
       </div>
-{showModal && selectedCustomer && (
-  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-    <div className="bg-white rounded-xl p-6 w-[500px] shadow-xl">
+      {showModal &&
+        selectedCustomer && (
 
-      <h2 className="text-2xl font-bold mb-4">
-        Customer Details
-      </h2>
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-      <div className="space-y-2">
+          <div className="bg-white rounded-2xl p-6 w-[95%] md:w-[500px]">
 
-        <p>
-          <strong>Name:</strong>{" "}
-          {selectedCustomer.name}
-        </p>
+            <h2 className="text-2xl font-bold mb-5">
+              Customer Details
+            </h2>
 
-        <p>
-          <strong>Mobile:</strong>{" "}
-          {selectedCustomer.mobile}
-        </p>
+            <div className="space-y-2">
 
-        <p>
-          <strong>Address:</strong>{" "}
-          {selectedCustomer.address}
-        </p>
+              <p><strong>Name:</strong> {selectedCustomer.name}</p>
+              <p><strong>Mobile:</strong> {selectedCustomer.mobile}</p>
+              <p><strong>Address:</strong> {selectedCustomer.address}</p>
 
-        <hr className="my-3" />
+              <hr />
 
-        <p>
-          <strong>Vehicle Number:</strong>{" "}
-          {selectedCustomer.vehicle_number}
-        </p>
+              <p><strong>Vehicle No:</strong> {selectedCustomer.vehicle_number}</p>
+              <p><strong>Model:</strong> {selectedCustomer.vehicle_model}</p>
+              <p><strong>Make:</strong> {selectedCustomer.vehicle_make}</p>
+              <p><strong>KM:</strong> {selectedCustomer.km_reading}</p>
+              <p><strong>Fuel:</strong> {selectedCustomer.fuel_level}</p>
 
-        <p>
-          <strong>Vehicle Model:</strong>{" "}
-          {selectedCustomer.vehicle_model}
-        </p>
+            </div>
 
-        <p>
-          <strong>Vehicle Make:</strong>{" "}
-          {selectedCustomer.vehicle_make}
-        </p>
+            <button
+              className="w-full mt-6 bg-slate-800 text-white py-3 rounded-xl"
+              onClick={() =>
+                setShowModal(false)
+              }
+            >
+              Close
+            </button>
 
-        <p>
-          <strong>KM Reading:</strong>{" "}
-          {selectedCustomer.km_reading}
-        </p>
+          </div>
 
-        <p>
-          <strong>Fuel Level:</strong>{" "}
-          {selectedCustomer.fuel_level}
-        </p>
+        </div>
 
-      </div>
+      )}
 
-      <button
-        onClick={() =>
-          setShowModal(false)
-        }
-        className="mt-5 bg-slate-700 hover:bg-slate-800 text-white px-5 py-2 rounded"
-      >
-        Close
-      </button>
-
-    </div>
-
-  </div>
-)}
     </MainLayout>
   );
 }
