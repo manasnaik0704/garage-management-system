@@ -1,5 +1,11 @@
 import { useState } from "react";
 import Sidebar from "../components/Sidebar";
+import { Link } from "react-router-dom";
+import {
+  FaChartBar,
+  FaUsers,
+  FaFileInvoice
+} from "react-icons/fa";
 
 function MainLayout({ children }) {
 
@@ -53,9 +59,46 @@ function MainLayout({ children }) {
         )}
 
         {/* Main Content */}
-        <div className="w-full p-4 md:p-6 overflow-x-hidden">
+        <div className="w-full p-4 pb-24 md:p-6 overflow-x-hidden">
 
           {children}
+          {/* Bottom Navigation */}
+
+<div className="md:hidden fixed bottom-0 left-0 w-full bg-white shadow-lg border-t flex justify-around py-3 z-50">
+
+  <Link
+    to="/"
+    className="flex flex-col items-center text-sm"
+  >
+    <FaChartBar className="text-xl" />
+    Dashboard
+  </Link>
+
+  <Link
+    to="/customers"
+    className="flex flex-col items-center text-sm"
+  >
+    <FaUsers className="text-xl" />
+    Customers
+  </Link>
+
+  <Link
+    to="/quotations"
+    className="flex flex-col items-center text-sm"
+  >
+    <FaFileInvoice className="text-xl" />
+    Quote
+  </Link>
+
+  <Link
+    to="/invoices"
+    className="flex flex-col items-center text-sm"
+  >
+    <FaFileInvoice className="text-xl" />
+    Invoice
+  </Link>
+
+</div>
 
         </div>
 
