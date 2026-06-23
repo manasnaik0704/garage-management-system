@@ -1,8 +1,10 @@
 import axios from "axios";
 
 const API =
-  "http://localhost:5001/api/customer-vehicle";
+  `${import.meta.env.VITE_API_URL}/customer-vehicle`;
 
 export const addCustomerVehicle = (data) => {
+
   return axios.post(API, data);
+
 };

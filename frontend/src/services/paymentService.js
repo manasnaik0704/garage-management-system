@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API =
-  "http://localhost:5001/api/payments";
+  `${import.meta.env.VITE_API_URL}/payments`;
 
 export const getPayments = () =>
   axios.get(API);

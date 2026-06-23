@@ -1,19 +1,21 @@
 import axios from "axios";
 
 const API =
-  "http://localhost:5001/api/quotations";
+  `${import.meta.env.VITE_API_URL}/quotations`;
 
 export const createQuotation = (data) =>
   axios.post(API, data);
 
+export const getQuotations = () =>
+  axios.get(API);
+
 export const downloadQuotationPDF = (
   id
 ) => {
+
   window.open(
-    `http://localhost:5001/api/quotations/${id}/pdf`,
+    `${API}/${id}/pdf`,
     "_blank"
   );
-};
 
-export const getQuotations = () =>
-  axios.get(API);
+};

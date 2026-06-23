@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API =
-  "http://localhost:5001/api/invoices";
+  `${import.meta.env.VITE_API_URL}/invoices`;
 
 export const getInvoices = () =>
   axios.get(API);
@@ -19,5 +19,6 @@ export const updateInvoicePayment = (
       paid_amount
     }
   );
-  export const deleteInvoice = (id) =>
+
+export const deleteInvoice = (id) =>
   axios.delete(`${API}/${id}`);

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API =
-  "http://localhost:5001/api/jobcards";
+  `${import.meta.env.VITE_API_URL}/jobcards`;
 
 export const getJobCards = () =>
   axios.get(API);
@@ -15,5 +15,7 @@ export const updateJobStatus = (
 ) =>
   axios.put(
     `${API}/${id}/status`,
-    { status }
+    {
+      status
+    }
   );

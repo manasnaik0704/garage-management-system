@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API =
-  "http://localhost:5001/api/vehicles";
+  `${import.meta.env.VITE_API_URL}/vehicles`;
 
 export const getVehicles = () =>
   axios.get(API);
