@@ -1,6 +1,11 @@
 import { useState } from "react";
+import {
+  Link,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
+
 import Sidebar from "../components/Sidebar";
-import { Link, useNavigate } from "react-router-dom";
 
 import {
   FaChartBar,
@@ -8,156 +13,175 @@ import {
   FaFileInvoice,
   FaPlus,
   FaUserPlus,
-  FaFileAlt
+  FaFileAlt,
 } from "react-icons/fa";
 
 function MainLayout({ children }) {
-
-  const [showMenu, setShowMenu] =
-    useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const [showFabMenu, setShowFabMenu] =
     useState(false);
 
-  const navigate = useNavigate();
-
   return (
     <div className="bg-slate-100 min-h-screen">
 
-      <div className="flex">
+      {/* Desktop Sidebar */}
+      <div className="hidden md:flex">
 
-        {/* Desktop Sidebar */}
+        <Sidebar />
 
-        <div className="hidden md:block">
-          <Sidebar />
-        </div>
-        {/* Main Content */}
-
-        <div className="w-full p-4 pb-28 md:p-6 overflow-x-hidden">
-
+        <div className="flex-1 p-6">
           {children}
-
         </div>
 
       </div>
 
-      {/* Floating Menu */}
+      {/* Mobile Layout */}
+      <div className="md:hidden">
 
-      {showFabMenu && (
+        {/* Header */}
+        <div className="bg-white px-5 py-4 shadow-sm sticky top-0 z-40">
 
-        <div className="md:hidden fixed bottom-40 right-5 z-50 space-y-3">
+          <h1 className="text-2xl font-bold text-slate-800">
+            🚗 Garage Pro
+          </h1>
 
-          <button
-            onClick={() =>
-              navigate("/customers")
-            }
-            className="flex items-center gap-3 bg-white shadow-xl rounded-full px-5 py-3"
-          >
-
-            <FaUserPlus className="text-blue-600" />
-
-            Add Customer
-
-          </button>
-
-          <button
-            onClick={() =>
-              navigate("/quotations")
-            }
-            className="flex items-center gap-3 bg-white shadow-xl rounded-full px-5 py-3"
-          >
-
-            <FaFileAlt className="text-green-600" />
-
-            Create Quote
-
-          </button>
-
-          <button
-            onClick={() =>
-              navigate("/invoices")
-            }
-            className="flex items-center gap-3 bg-white shadow-xl rounded-full px-5 py-3"
-          >
-
-            <FaFileInvoice className="text-red-600" />
-
-            Create Invoice
-
-          </button>
+          <p className="text-gray-500 text-sm">
+            Complete Car Care
+          </p>
 
         </div>
 
-      )}
+        {/* Main Content */}
+        <div className="p-4 pb-32">
+          {children}
+        </div>
 
-      {/* Floating + Button */}
+        {/* Floating Menu */}
+        {showFabMenu && (
+          <div className="fixed bottom-40 right-5 z-50 space-y-3">
 
-      <button
-        onClick={() =>
-          setShowFabMenu(
-            !showFabMenu
-          )
-        }
-        className="
-        md:hidden
-        fixed
-        bottom-20
-        right-5
-        w-16
-        h-16
-        rounded-full
-        bg-blue-600
-        text-white
-        shadow-2xl
-        z-50
-        flex
-        items-center
-        justify-center
-        "
-      >
+            <button
+              onClick={() => navigate("/customers")}
+              className="flex items-center gap-3 bg-white rounded-full shadow-xl px-5 py-3"
+            >
+              <FaUserPlus className="text-blue-600" />
+              Add Customer
+            </button>
 
-        <FaPlus size={24} />
+            <button
+              onClick={() => navigate("/quotations")}
+              className="flex items-center gap-3 bg-white rounded-full shadow-xl px-5 py-3"
+            >
+              <FaFileAlt className="text-green-600" />
+              Create Quote
+            </button>
 
-      </button>
+            <button
+              onClick={() => navigate("/invoices")}
+              className="flex items-center gap-3 bg-white rounded-full shadow-xl px-5 py-3"
+            >
+              <FaFileInvoice className="text-red-600" />
+              Create Invoice
+            </button>
 
-      {/* Bottom Navigation */}
+          </div>
+        )}
 
-      <div className="md:hidden fixed bottom-0 left-0 w-full bg-white border-t shadow-lg flex justify-around py-3 z-40">
-
-        <Link
-          to="/"
-          className="flex flex-col items-center text-sm"
+        {/* Floating Button */}
+        <button
+          onClick={() =>
+            setShowFabMenu(!showFabMenu)
+          }
+          className="
+          fixed
+          bottom-24
+          right-5
+          w-16
+          h-16
+          rounded-full
+          bg-blue-600
+          text-white
+          shadow-2xl
+          flex
+          items-center
+          justify-center
+          z-50
+          "
         >
-          <FaChartBar className="text-xl" />
-          Home
-        </Link>
+          <FaPlus size={24} />
+        </button>
 
-        <Link
-          to="/customers"
-          className="flex flex-col items-center text-sm"
+        {/* Bottom Navigation */}
+        <div
+          className="
+          fixed
+          bottom-3
+          left-3
+          right-3
+          bg-white
+          rounded-full
+          shadow-2xl
+          flex
+          justify-around
+          py-4
+          z-40
+          "
         >
-          <FaUsers className="text-xl" />
-          Customers
-        </Link>
+          <Link
+            to="/"
+            className={`flex flex-col items-center text-xs ${
+              location.pathname === "/"
+                ? "text-blue-600"
+                : "text-gray-500"
+            }`}
+          >
+            <FaChartBar className="text-xl" />
+            Home
+          </Link>
 
-        <Link
-          to="/quotations"
-          className="flex flex-col items-center text-sm"
-        >
-          <FaFileInvoice className="text-xl" />
-          Quote
-        </Link>
+          <Link
+            to="/customers"
+            className={`flex flex-col items-center text-xs ${
+              location.pathname ===
+              "/customers"
+                ? "text-blue-600"
+                : "text-gray-500"
+            }`}
+          >
+            <FaUsers className="text-xl" />
+            Customers
+          </Link>
 
-        <Link
-          to="/invoices"
-          className="flex flex-col items-center text-sm"
-        >
-          <FaFileInvoice className="text-xl" />
-          Invoice
-        </Link>
+          <Link
+            to="/quotations"
+            className={`flex flex-col items-center text-xs ${
+              location.pathname ===
+              "/quotations"
+                ? "text-blue-600"
+                : "text-gray-500"
+            }`}
+          >
+            <FaFileInvoice className="text-xl" />
+            Quote
+          </Link>
+
+          <Link
+            to="/invoices"
+            className={`flex flex-col items-center text-xs ${
+              location.pathname ===
+              "/invoices"
+                ? "text-blue-600"
+                : "text-gray-500"
+            }`}
+          >
+            <FaFileInvoice className="text-xl" />
+            Invoice
+          </Link>
+        </div>
 
       </div>
-
     </div>
   );
 }
