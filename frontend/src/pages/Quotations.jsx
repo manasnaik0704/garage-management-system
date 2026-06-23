@@ -122,7 +122,7 @@ function Quotations() {
   }
 
   window.open(
-    `${import.meta.env.VITE_API_URL}/quotations/${id}/pdf`,
+    `${import.meta.env.VITE_API_URL}/quotations/${savedQuotationId}/pdf`,
   "_blank"
   );
 };

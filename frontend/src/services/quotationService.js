@@ -9,12 +9,10 @@ export const createQuotation = (data) =>
 export const getQuotations = () =>
   axios.get(API);
 
-export const downloadQuotationPDF = (
-  id
-) => {
+export const downloadQuotationPDF = (id) => {
 
   window.open(
-    `${API}/${id}/pdf`,
+    `${import.meta.env.VITE_API_URL}/quotations/${id}/pdf`,
     "_blank"
   );
 

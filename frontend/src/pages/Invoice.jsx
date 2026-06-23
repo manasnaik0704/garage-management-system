@@ -751,7 +751,7 @@ const handleDeleteInvoice = async (
                 className="bg-blue-600 text-white px-3 py-2 rounded-lg"
                 onClick={() =>
                   window.open(
-                    `${import.meta.env.VITE_API_URL}/invoices/${id}/pdf`,
+                    `${import.meta.env.VITE_API_URL}/invoices/${invoice.id}/pdf`,
   "_blank"
                   )
                 }
